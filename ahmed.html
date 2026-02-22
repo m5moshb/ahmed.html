@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AHMED JAFARI | THE AUTHORITY 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #fbbf24; --green: #10b981; --red: #ef4444; --dark: #05070a;
+            --glass: rgba(255, 255, 255, 0.05); --border: rgba(251, 191, 36, 0.2);
+        }
+        * { box-sizing: border-box; transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        body { margin: 0; font-family: 'Cairo', sans-serif; background: var(--dark); color: #fff; text-align: right; overflow-x: hidden; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+        header { padding: 80px 20px; text-align: center; }
+        header h1 { font-family: 'Orbitron', sans-serif; font-size: clamp(2.5rem, 8vw, 4rem); color: var(--gold); margin: 0; }
+        .authority-card { background: var(--glass); border: 2px solid var(--gold); border-radius: 40px; padding: 40px; margin: 40px 0; text-align: center; }
+        .rate-flex { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 20px; }
+        .rate-box { padding: 20px; border-radius: 20px; background: rgba(0,0,0,0.5); border: 1px solid var(--border); min-width: 180px; }
+        .rate-box span { display: block; font-size: 3rem; font-weight: 900; color: var(--gold); }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+        .card { background: var(--glass); border: 1px solid var(--border); padding: 30px; border-radius: 30px; }
+        .btn-order { background: var(--gold); color: #000; width: 100%; padding: 15px; border-radius: 15px; font-weight: 900; border: none; cursor: pointer; }
+        
+        /* Gallery */
+        .example-sec { text-align: center; margin-top: 60px; }
+        .gallery { display: flex; gap: 20px; overflow-x: auto; padding: 30px 10px; scrollbar-width: none; }
+        .gallery-item { width: 320px; height: 450px; border-radius: 25px; flex-shrink: 0; background: #111; border: 1px solid var(--border); overflow: hidden; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Modal */
+        #orderModal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
+        .modal-content { background: #0a0e1a; border: 1px solid var(--gold); border-radius: 35px; padding: 30px; width: 100%; max-width: 480px; }
+        input { width: 100%; padding: 16px; margin-bottom: 10px; border-radius: 12px; border: 1px solid var(--border); background: #000; color: #fff; outline: none; }
+        input.is-valid { border-color: var(--green) !important; }
+        .opt-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .opt-btn { flex: 1; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--glass); color: #fff; cursor: pointer; text-align: center; font-size: 0.8rem; }
+        .opt-btn.active { border-color: var(--gold); background: rgba(251, 191, 36, 0.15); }
+        .btn-confirm { background: var(--gold); color: #000; width: 100%; padding: 18px; border-radius: 15px; font-weight: 900; border: none; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header><h1>AHMED JAFARI</h1><p>Expert in BNPL Solutions</p></header>
+        <section class="authority-card">
+            <h2>تقليل العمولات لـ 5.75% 🛡️</h2>
+            <div class="rate-flex">
+                <div class="rate-box" style="border-color:var(--red); opacity:0.5;"><span>7%</span></div>
+                <div class="rate-box"><span>5.75%</span></div>
+            </div>
+        </section>
+        <div class="services-grid">
+            <div class="card"><h3>تمارا و تابي</h3><button class="btn-order" onclick="openModal('تمارا و تابي', true)">ابدأ الطلب</button></div>
+            <div class="card"><h3>إمكان و مس باي</h3><button class="btn-order" onclick="openModal('إمكان و مس باي', false)">ابدأ الطلب</button></div>
+        </div>
+        <div class="example-sec">
+            <span style="background:#333; color:var(--gold); padding:5px 15px; border-radius:8px;">من أعمالنا: متجر مكتبة المالكي</span>
+            <div class="gallery">
+                <div class="gallery-item"><img src="https://i.ibb.co/3mN9K54/image.png" alt="المالكي"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="orderModal">
+        <div class="modal-content">
+            <h3 id="modalTitle" style="color:var(--gold); text-align:center;"></h3>
+            <form id="jafariForm" action="https://formspree.io/f/xvzbbrgr" method="POST">
+                <input type="hidden" name="Service" id="hiddenService">
+                <input type="text" name="Full_Name" id="name" placeholder="الاسم الكامل" oninput="validateAll()" required>
+                <input type="tel" name="Phone" id="phone" placeholder="الجوال السعودي (05xxxxxxxx)" oninput="validatePhone()" required>
+                <div class="opt-group">
+                    <div class="opt-btn" id="actOnline" onclick="setActivity('متجر')">متجر</div>
+                    <div class="opt-btn" id="actStore" onclick="setActivity('محل')">محل</div>
+                </div>
+                <input type="hidden" name="Activity" id="hiddenActivity">
+                <input type="url" name="Link" id="link" placeholder="رابط المتجر أو قوقل ماب" oninput="validateLink()" required>
+                <div class="opt-group">
+                    <div class="opt-btn" id="docCR" onclick="setDoc('سجل تجاري')">سجل تجاري</div>
+                    <div class="opt-btn" id="docFL" onclick="setDoc('وثيقة عمل حر')">وثيقة عمل حر</div>
+                </div>
+                <input type="hidden" name="Document" id="hiddenDoc">
+                <button type="submit" id="submitBtn" class="btn-confirm">إرسال الطلب ✅</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal(s, f) { document.getElementById('modalTitle').innerText = s; document.getElementById('hiddenService').value = s; document.getElementById('orderModal').style.display = 'flex'; document.getElementById('docFL').style.display = f ? 'block' : 'none'; }
+        function validatePhone() { const p = document.getElementById('phone'); p.className = /^05\d{8}$/.test(p.value) ? 'is-valid' : ''; validateAll(); }
+        function validateLink() { const l = document.getElementById('link'); l.className = l.value.length > 10 ? 'is-valid' : ''; validateAll(); }
+        function setActivity(a) { document.getElementById('hiddenActivity').value = a; document.getElementById('actOnline').className = a === 'متجر' ? 'opt-btn active' : 'opt-btn'; validateAll(); }
+        function setDoc(d) { document.getElementById('hiddenDoc').value = d; document.getElementById('docCR').className = d === 'سجل تجاري' ? 'opt-btn active' : 'opt-btn'; validateAll(); }
+        function validateAll() {
+            const n = document.getElementById('name').value.length > 2;
+            const p = document.getElementById('phone').classList.contains('is-valid');
+            const l = document.getElementById('link').classList.contains('is-valid');
+            const a = document.getElementById('hiddenActivity').value !== "";
+            const d = document.getElementById('hiddenDoc').value !== "";
+            document.getElementById('submitBtn').style.display = (n && p && l && a && d) ? 'block' : 'none';
+        }
+        document.getElementById('jafariForm').onsubmit = async (e) => {
+            e.preventDefault();
+            await fetch(e.target.action, { method: 'POST', body: new FormData(e.target), headers: { 'Accept': 'application/json' } });
+            window.open(`https://wa.me/966507190799?text=تم تقديم طلب جديد من ${document.getElementById('name').value}`, '_blank');
+            location.reload();
+        };
+    </script>
+</body>
+</html>
